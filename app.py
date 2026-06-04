@@ -100,7 +100,7 @@ if user_input := str.chat_input("Digite sua mensagem aqui (ex: 'Me passa uma rec
         message_placeholder = str.empty()
         
         completion = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model="llama3-8b-instant",
             messages=str.session_state.messages,
             temperature=0.7,
         )
