@@ -44,24 +44,18 @@ str.markdown("""
 """, unsafe_allow_html=True)
 
 # 3. Exibição da Logo e Título
-# Procura a imagem logo.png na mesma pasta do GitHub
 if os.path.exists("logo.png"):
     str.image("logo.png", width=180)
 else:
-    # Caso você ainda não tenha subido a logo, ele mostra esse emoji bonito
     str.title("🍗 Coxinha Enterprise")
 
 str.subheader("O sabor que move você! 🚇✈️")
 str.write("Bem-vindo ao assistente inteligente da Coxinha Enterprise. Como posso te ajudar hoje?")
 
----
-
 # 4. Conexão Oculta e Segura com a Groq
-# O Streamlit tem um lugar secreto para colar a API Key chamado "Secrets"
 if "GROQ_API_KEY" in str.secrets:
     api_key = str.secrets["GROQ_API_KEY"]
 else:
-    # Caso esqueça de configurar, avisa de forma amigável
     str.error("Por favor, configure a sua chave GROQ_API_KEY nos Secrets do Streamlit.")
     str.stop()
 
@@ -97,18 +91,16 @@ for msg in str.session_state.messages:
 # 7. Entrada de texto do usuário
 if user_input := str.chat_input("Digite sua mensagem aqui (ex: 'Me passa uma receita?' ou 'Quero revender')"):
     
-    # Mostra a mensagem do usuário na tela
     with str.chat_message("user"):
         str.write(user_input)
     
     str.session_state.messages.append({"role": "user", "content": user_input})
     
-    # Chamar a IA da Groq para responder
     with str.chat_message("assistant"):
         message_placeholder = str.empty()
         
         completion = client.chat.completions.create(
-            model="llama3-8b-8192", # Modelo rápido e excelente para chat
+            model="llama3-8b-8192",
             messages=str.session_state.messages,
             temperature=0.7,
         )
